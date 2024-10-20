@@ -32,13 +32,13 @@ def preprocess_text(df):
     df['Processed_Impact'] = df['Impact'].apply(clean_text)
     return df
 
-# Train the LDA model using TF-IDF and 7 topics
-def train_lda_model(df, n_topics=7):
+# Train the LDA model using TF-IDF and 8 topics
+def train_lda_model(df, n_topics=8):
     vectorizer = TfidfVectorizer(max_df=0.9, min_df=2, ngram_range=(1, 2), stop_words='english')
     dtm = vectorizer.fit_transform(df['Processed_Impact'])
     
     lda = LatentDirichletAllocation(n_components=n_topics, random_state=42, learning_method='online',
-                                    max_iter=10, learning_decay=0.7, learning_offset=50.0)
+                                    max_iter=10, learning_decay=0.5, learning_offset=20.0)
     lda.fit(dtm)
 
     return lda, vectorizer
@@ -345,19 +345,21 @@ def main():
     # Preprocess the 'Impact' column for LDA
     df = preprocess_text(df)
 
-    # Train the LDA model with 7 topics
-    lda, vectorizer = train_lda_model(df, n_topics=7)
+    # Train the LDA model with 8 topics
+    lda, vectorizer = train_lda_model(df, n_topics=8)
 
     # Manually set the new topic names
     topic_names = [
-        "Economic Conflicts and Leadership",
-        "Education and Establishment in the Roman Empire",
-        "Presidential Influence in WWII and Global Affairs",
-        "The Transition from British Rule to Independence",
-        "Monarchies, Societal Dynamics, and Muslim-Jewish Relations",
-        "The British Parliament's Global Initiatives",
-        "Cultural Loss and Historical Significance"
+    "Global Events and Social Movements",
+    "Education and Authority Amid Crises",
+    "Impact of Conflict on Global Relations",
+    "Colonial Transitions and Political Policies",
+    "Religious Influence and Territorial Conquests",
+    "Nation-Building and Sovereignty Issues",
+    "Economic Growth and Political Movements",
+    "Colonial Empires and Their Legacies"
     ]
+
 
     # Create the PyQt application
     app = QApplication([])
