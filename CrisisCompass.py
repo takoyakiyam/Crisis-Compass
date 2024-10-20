@@ -204,19 +204,22 @@ class CrisisCompass(QMainWindow):
         # Display available countries
         self.display_countries()
 
-    # Display available countries based on topic
+   # Display available countries based on topic
     def display_countries(self):
         self.clear_layout(self.scroll_layout)
         title = QLabel("Select a Country:")
         title.setFont(QFont("Arial", 16))
         self.scroll_layout.addWidget(title)
 
+        # Get unique countries and sort them alphabetically
         available_countries = self.df_filtered_by_topic['Country'].unique()
+        sorted_countries = sorted(available_countries)  # Sort countries alphabetically
 
-        for country in available_countries:
+        for country in sorted_countries:  # Use sorted list
             btn = self.create_rounded_button(country)
             btn.clicked.connect(lambda checked, c=country: self.select_country(c))
             self.scroll_layout.addWidget(btn)
+
 
     # Handle country selection and display results
     def select_country(self, country):
