@@ -278,9 +278,8 @@ class CrisisCompass(QMainWindow):
 
     def display_events(self):
         self.clear_layout(self.scroll_layout)
-        title = QLabel("Recommended Events:")
+        title = QLabel("Browse Event/s")
         title.setFont(QFont("Arial", 16))
-        title.setAlignment(Qt.AlignCenter)  # Center the title
         self.scroll_layout.addWidget(title)
 
         if self.df_filtered_by_country.empty:
@@ -289,7 +288,7 @@ class CrisisCompass(QMainWindow):
             self.scroll_layout.addWidget(label)
         else:
             for idx, event in self.df_filtered_by_country.iterrows():
-                btn = self.create_rounded_button(f"{idx + 1}. {event['Name of Incident']} ({event['Year']}, {event['Country']}) - {event['Type of Event']}")
+                btn = self.create_rounded_button(f"{event['Name of Incident']} ({event['Year']}, {event['Country']}) - {event['Type of Event']}")
                 btn.clicked.connect(lambda checked, e=event: self.display_event_details(e))  # Pass the event
                 self.scroll_layout.addWidget(btn)
 
